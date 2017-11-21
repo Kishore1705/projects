@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="Assets/Bootstrap/login.css">
+<div class = "container">
+    <div class="wrapper">
+        <form name="Login_Form" class="form-signin" ng-submit="login()" autocomplete="off">       
+            <h3 class="form-signin-heading">Login to your account</h3>
+              <hr class="colorgraph"><br>
+              <span style="color:red; margin-left:55px;">{{message}}</span>
+              <input type="text" class="form-control" name="Username" ng-model="user.username"
+              placeholder="Username" required="" autofocus="" />
+              <input type="password" class="form-control" name="Password" ng-model="user.password"
+              placeholder="Password" required=""/>            
+             
+              <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>            
+              <a style="margin-left:100px" ui-sref="register">
+                Register an Account
+              </a>
+        </form>     
+    </div>
+</div>

@@ -1,0 +1,264 @@
+<div id="successAlert" ng-show="isSuccess" class="alert alert-info alert-dismissible" 
+    style="width:300px;position:absolute;z-index:1;top:8%;left:75%">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-info"></i> Alert!</h4>
+    {{information}}
+</div>
+
+<div id="failureAlert" ng-show="isError" class="alert alert-danger alert-dismissible" 
+    style="width:300px;position:absolute;z-index:1;top:8%;left:75%">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-info"></i> Alert!</h4>
+    Info alert preview. This alert is dismissable.
+</div>
+
+<div class="skin-blue sidebar-mini wysihtml5-supported" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">        
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="javascript:;" class="logo">
+                <span class="logo-lg"><b>Task</b>MANAGER</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>        
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!--<li class="dropdown user user-menu">
+                            <a>
+                               <span class="hidden-xs">Username</span>
+                            </a>
+                        </li>-->
+                        <li>
+                            <a href="javascript:;" data-toggle="control-sidebar" ng-click="logout()">
+                                <i class="fa fa-power-off"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar" style="height: auto;">
+                <ul class="sidebar-menu tree" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="treeview">
+                        <a href="javascript:;">
+                            <i class="fa fa-user"></i>
+                            <span style="text-transform: uppercase;">{{username}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                        <i class="fa fa-th"></i> <span>Widgets</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>        
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 570px;">
+            <section class="content-header">
+              <h1>
+                Task List
+              </h1>
+            </section>
+            <section class="box">
+                <div class="row">
+                    <div class="col-sm-4">                        
+                        <div class="input-group input-group-sm pull-left" style="width: 150px;margin:10px;">
+                            <input type="text" name="table_search" ng-model="data_search" class="form-control pull-right" placeholder="Search">
+        
+                            <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="col-sm-8">
+                        <button type="button" id="createButton" class="btn bg-orange btn-flat margin pull-right"
+                        ng-click="onModalClick('create')">
+                            <i class="fa fa-plus-circle"></i> Create Task
+                        </button>
+                    </div>
+                </div>                
+            </section>
+            <section class="content" style="margin-top:-25px;">   
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Task List</h3>
+            
+                            <div class="box-tools">
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Objective</th>
+                                        <th>Status</th>
+                                        <th>Start Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Date</th>
+                                        <th>End Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    <tr dir-paginate="tasks in todaytask|filter:data_search|itemsPerPage:5">
+                                        <td>{{tasks.taskid}}</td>
+                                        <td>{{tasks.name}}</td>
+                                        <td>{{tasks.objective}}</td>
+                                        <td><span class="label label-success">{{tasks.status}}</span></td>
+                                        <td>{{tasks.startdate}}</td>
+                                        <td>{{tasks.starttime}}</td>
+                                        <td>{{tasks.enddate}}</td>
+                                        <td>{{tasks.endtime}}</td>
+                                        <td>
+                                            <a href="javascript:;" ng-click="delete(tasks.taskid, $index)"
+                                            data-toggle="modal" data-target="#deletemodal">
+                                                <i style="color: red; margin-left:5px;" class="fa fa-trash"></i>
+                                            </a>
+                                            <a href="javascript:;" style="margin-left:5px;" ng-if="tasks.status !== 'Completed'" ng-click="onButtonClick(tasks, $index);onModalClick('update')">
+                                                <i style="color: blue;" class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>                                   
+                                </tbody>
+                            </table>
+                            <div class="box-footer clearfix pull-right">
+                                <dir-pagination-controls
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true">
+                                </dir-pagination-controls>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>                      
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Footer</strong>
+            <!--<div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
+            </div>
+            <strong>Copyright © 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+            reserved.-->
+        </footer>        
+        <div class="control-sidebar-bg"></div>
+    </div>        
+</div>
+
+<!--begin: Create Task Modal-->
+<div class="modal fade" id="createmodal" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="reset()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title"><strong>{{headline}}</strong></h4>
+        </div>
+        <div class="modal-body" ng-form="taskform">
+            <span style="color:red;">{{message}}</span>
+            <form role="form" name="createform">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Task Name <span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Task Name"
+                                ng-model="task.name" ng-required="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Objective <span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter Task Objective"
+                                ng-model="task.objective" ng-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="name">Start Date <span style="color:red">*</span></label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="task.startdate" 
+                                is-open="startdateopened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 'startdate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name">End Date <span style="color:red">*</span></label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="task.enddate" 
+                                is-open="enddateopened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event, 'enddate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>  
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Start Time</label>
+                            <p class="input-group">
+                                <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" 
+                                minute-step="mstep" show-meridian="ismeridian" ng-required="true"></timepicker>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>End Time</label>                            
+                            <p class="input-group">
+                                <timepicker ng-model="endtime" ng-change="endchanged()" hour-step="hstep" 
+                                minute-step="mstep" show-meridian="ismeridian" ng-required="true"></timepicker>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="headline == 'Update Task'">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Status</label>
+                                <select ng-model="selectedItem" class="form-control" ng-change="onStatusChange(selectedItem)" 
+                                ng-options="opt for opt in taskstatus"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="closeButton" ng-click="reset()" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary"
+            ng-click="create(createform)" ng-disabled="createform.$invalid">Save changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!--end: Create Task Modal-->
+<!---->
+<div class="modal fade" id="deletemodal" style="display: none;" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                Delete task?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteTask()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="Assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
